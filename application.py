@@ -15,10 +15,26 @@ session = DBSession()
 app = Flask(__name__)
 
 
+# JSON APi
+@app.route('/categories/json')
+def categoriesJSON():
+    return 'this will show the json for categories'
+
+@app.route('/categories/<int:category_id>/json')
+def showCategoryItemsJSON(category_id):
+    return 'this will show the items json in {category_id}'
+
+@app.route('/categories/<int:category_id>/<int:item_id>/json')
+def showItemJSON(category_id, item_id):
+    return 'this will show JSON of {item_id} from {category_id}'
+
+
+#main application
 @app.route('/')
 @app.route('/catalog')
-def showLatestItems():
-    return 'this page will show the main page with latest added items'
+def showCatalog():
+    categories = session.query(Category).order_by(Category.name)
+    return render_template('main_page.html', categories=categories)
 
 @app.route('/categories')
 def showCategories():
@@ -39,6 +55,10 @@ def deleteCategory(category_id):
 @app.route('/categories/<int:category_id>/items')
 def showCategoryItems(category_id):
     return 'will show all items in {category_id}'
+
+@app.route('/categories/<int:category_id>/<int:item_id>')
+def showItem(category_id, item_id):
+    return 'this will show {item_id} from {category_id}'
 
 @app.route('/categories/<int:category_id>/new')
 def newCategoryItem(category_id):

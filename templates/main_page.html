@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="">
+    </head>
+
+    <body>
+        <div class ='sidebar'>
+            <h1>Categories</h1>
+            <a href="{{url_for('newCategory')}}"> 
+                <h3>Create New Category</h3>
+            </a>
+            {% for category in Categories %}
+
+            {% endfor %}
+            
+        </div>
+    </body>
+</html>
