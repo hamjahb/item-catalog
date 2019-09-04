@@ -31,12 +31,13 @@ def showItemJSON(category_id, item_id):
 
 
 #main application
-@app.route('/')
-@app.route('/catalog')
-def showCatalog():
-    categories = session.query(Category).order_by(Category.name)
-    return render_template('main_page.html', categories=categories)
 
+#@app.route('/catalog')
+#def showCatalog():
+#    categories = session.query(Category).order_by(Category.name)
+#    return render_template('main_page.html', categories=categories)
+
+@app.route('/')
 @app.route('/categories')
 def showCategories():
     categories = session.query(Category).order_by(Category.name)
@@ -53,9 +54,17 @@ def newCategory():
     else:
         return render_template('new_category.html')
 
-@app.route('/categories/<int:category_id>/edit')
+
+@app.route('/categories/<int:category_id>/edit',  methods=['GET', 'POST'])
 def editCategory(category_id):
-    return 'this page will be to edit {category_id}'
+    editedCategory = session.query(Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editCategory.name = request.form['name']
+            flash('Category Successfully Edited %s' % editedCategory.name)
+            return redirect(url_for('showCategories'))
+    else:
+        return render_template('edited_category.html', category=editedCategory)
 
 @app.route('/categories/<int:category_id>/delete')
 def deleteCategory(category_id):
