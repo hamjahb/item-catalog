@@ -114,10 +114,6 @@ def showCategoryItems(category_id):
         return render_template('items.html', items=items, category=category, creator=creator)
 
 
-# @app.route('/categories/<int:category_id>/<int:item_id>')
-# def showItem(category_id, item_id):
-#    return 'this will show {item_id} from {category_id}'
-
 @app.route('/categories/<int:category_id>/new', methods=['GET', 'POST'])
 def newCategoryItem(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
@@ -133,7 +129,24 @@ def newCategoryItem(category_id):
 
 @app.route('/categories/<int:category_id>/<int:item_id>/edit')
 def editCategoryItem(category_id, item_id):
-    return 'this page will be to edit {item_id} in {category_id}'
+    editedItem = session.query(Item).filter_by(id=item_id).one()
+    category = session.query(Category).filter_by(id=category_id).one()
+    if login_session['user_id'] != category.user_id:
+        return "<script>function myFunction() {alert('You are not authorized to edit items to this category. Please create your own category in order to edit items.');}</script><body onload='myFunction()''>"
+    if request.method == 'POST':
+        if request.form['name']:
+            editedItem.name = request.form['name']
+        if request.form['description']:
+            editedItem.description = request.form['description']
+        if request.form['category']:
+            editedItem.category = request.form['category']
+        session.add(editedItem)
+        session.commit()
+        flash('Item Successfully Edited')
+        return redirect(url_for('showCategoryItems', category_id=category_id))
+    else:
+        return render_template('edit_item.html', category_id=category_id, item_id=item_id, item=editedItem)
+
 
 @app.route('/categories/<int:category_id>/<int:item_id>/delete')
 def deleteCategoryItem(category_id, item_id):

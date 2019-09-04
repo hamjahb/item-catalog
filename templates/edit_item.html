@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+
+    <body>
+        <h1>Edit Items</h1>
+        <form action="#" method = 'POST'>
+            <p>Name:</p>
+                <input type ='text' name='name' placeholder = '{{item.name }}'>
+            
+                <p>Description:</p>
+                <input type ='text'  name='description' placeholder = '{{item.description}}'>
+            
+                <p>Category:</p>
+                {% if item.category == 'category 1' %}
+                <dd><input type ='radio' name='category' value='category 1'checked >category 1</dd>
+                {%else%}
+                <dd><input type ='radio' name='category' value='category 1' >category 1</dd>
+                {% endif %}
+
+                {% if item.category == 'category 2' %}
+                <dd><input type ='radio' name='category' value='category 1'checked >category 2</dd>
+                {%else%}
+                <dd><input type ='radio' name='category' value='category 2' >category 2</dd>
+                {% endif %}
+
+
+                <input type='submit' value='Edit'>
+
+
+                <a href = '#'> Cancel </a>
+
+            </form>
+    </body>
+</html>
