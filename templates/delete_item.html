@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+
+    <body>
+        <h1>Are you sure you want to Delete {{item.name}}?</h1>
+            <form action="#" method="POST">
+                <input type="submit" value="Delete">
+                <a href = '#'> Cancel </a>
+            </form>
+    </body>
+</html>
