@@ -8,5 +8,7 @@ Flask 1.1.1
 SQLAlchemy 1.3.6
 passlib 1.7.1
 flask_httpauth
+Werkzeug 0.15.5
+Flask-Session
 
 localhost:8000

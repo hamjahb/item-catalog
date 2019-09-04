@@ -1,5 +1,6 @@
 from databasesetup import Base, User, Category, Item
-from flask import Flask, jsonify, request, url_for, abort, g, render_template
+from flask import Flask, jsonify, request, url_for, abort, g, redirect, flash, render_template
+from flask import session as login_session
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
@@ -38,11 +39,19 @@ def showCatalog():
 
 @app.route('/categories')
 def showCategories():
-    return 'this will show all available categories'
+    categories = session.query(Category).order_by(Category.name)
+    return render_template('main_page.html', categories=categories)
 
-@app.route('/categories/new')
+@app.route('/categories/new', methods = ['GET', 'POST'])
 def newCategory():
-    return 'this page will add a new category'
+    if request.method == 'POST':
+        newCategory = Category(name=request.form['name'], user_id=login_session['user_id'])
+        session.add(newCategory)
+        flash('New Category %s Succesfully Created' % newCategory.name)
+        session.commit()
+        return redirect(url_for('showCategories'))
+    else:
+        return render_template('new_category.html')
 
 @app.route('/categories/<int:category_id>/edit')
 def editCategory(category_id):
@@ -75,5 +84,6 @@ def deleteCategoryItem(category_id, item_id):
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
