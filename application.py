@@ -40,17 +40,23 @@ def getUserID(email):
 
 
 # JSON APi
-@app.route('/categories/json')
+@app.route('/categories/JSON')
 def categoriesJSON():
-    return 'this will show the json for categories'
+    categories = session.query(Category).all()
+    return jsonify(categories=[r.serialize for r in categories])
 
-@app.route('/categories/<int:category_id>/json')
+
+@app.route('/categories/<int:category_id>/JSON')
 def showCategoryItemsJSON(category_id):
-    return 'this will show the items json in {category_id}'
+    category = session.query(Category).filter_by(id=category_id).one()
+    items = session.query(Item).filter_by(category_id=category_id).all()
+    return jsonify(Items=[i.serialize for i in items])
+
 
 @app.route('/categories/<int:category_id>/<int:item_id>/json')
 def showItemJSON(category_id, item_id):
-    return 'this will show JSON of {item_id} from {category_id}'
+    item = session.query(Item).filter_by(id=item_id).one()
+    return jsonify(item=item.serialize)
 
 
 #main application
