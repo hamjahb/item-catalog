@@ -1,0 +1,64 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+
+    <body>
+        <div>
+            <h1>{{category.name}}
+                <figure class="creator">
+                    <img src="{{ creator.picture}}">
+                    <figcaption>{{ creator.name }}</figcaption>
+                </figure>
+            </h1>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+
+            <ul>
+                {% for message in messages %}
+                <li> <strong> {{ message }} </strong> </li>
+                {% endfor %}
+            </ul>
+
+            {% endif %}
+            {% endwith %}
+            {% if items !=[] %}
+            {% endif %}
+            
+            <br><br>
+
+            <h2>category 1</h2>
+
+                {% for i in items %}
+                {% if i.category == 'category' %}
+
+                <p>{{i.name}}</p>
+                <p>{{i.id}}</p>
+                <p>{{i.description}}</i></p>
+                
+              <br><br>
+                    {% endif %}
+                    {% endfor %}
+
+            <br><br>
+
+            <h2>Category 2</h2>
+                {% for i in items %}
+                {% if i.category == 'category 2' %}
+
+                <p>{{i.name}}</p>
+                <p>{{i.id}}</p>
+                <p>{{i.description}}</p>
+                <br><br>
+                    {% endif %}
+
+                    {% endfor %}
+
+        </div>
+    </body>
+</html>
