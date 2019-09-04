@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+
+    <body>
+        <h1>New Item</h1>
+        <form action="#" method="POST">
+            <p>Name:</p>
+                <input type ='text' name='name'>
+            <p>Description:</p>
+                <input type ='text' name='description'>
+            <p>Category</p>
+                <input type ='radio'  name='course' value ='category 1'>Appetizer</br>
+                <input type ='radio'  name='course' value ='category 2'>Entree</br>
+                <br>
+            <input type='submit' value='Create'>
+        </form>
+    </body>
+</html>

@@ -118,9 +118,18 @@ def showCategoryItems(category_id):
 # def showItem(category_id, item_id):
 #    return 'this will show {item_id} from {category_id}'
 
-@app.route('/categories/<int:category_id>/new', methods)
+@app.route('/categories/<int:category_id>/new', methods=['GET', 'POST'])
 def newCategoryItem(category_id):
-    return 'this page will adda new item in {category_id}'
+    category = session.query(Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        newItem=Item(name=request.form['name'], description=request.form['description'],category=request.form['category'], category_id=category_id, user_id=category.user_id)
+        session.add(newItem)
+        session.commit()
+        flash('New %s Item Successfully Created'% (newItem.name))
+        return redirect(url_for('showCategoryItems', category_id=category_id))
+    else:
+        return render_template('new_item.html', category_id=category_id)
+
 
 @app.route('/categories/<int:category_id>/<int:item_id>/edit')
 def editCategoryItem(category_id, item_id):
